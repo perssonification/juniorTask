@@ -9,8 +9,8 @@ please make sure you have the following installed on your local
 -github deskstop (optional)
 
 step 2:Clone the Repository
--Open up juniorTask and close repository
--or close in git hub deskstop
+-Open up juniorTask and clon repository
+-or clone in git hub deskstop
 
 (alternative)
 you can use git bash or powershell and run the following coomand promt 
