@@ -7,7 +7,7 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
 <head>
   <meta charset="UTF-8" />
   <title>Chuck Norris Joke Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/View/style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
