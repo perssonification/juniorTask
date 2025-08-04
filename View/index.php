@@ -122,7 +122,7 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
 
       $('.tab-link').click(function(e) {
         e.preventDefault();
-        const tab = $(this).data('tab');
+        let tab = $(this).data('tab');
 
         $('.tab-link').removeClass('active');
         $(this).addClass('active');
