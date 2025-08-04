@@ -142,7 +142,7 @@ class JokeController
                             $jokeId = $_POST['joke_id'] ?? null;
 
                             if (!$jokeId) {
-                                echo json_encode(['error' => 'Missing joke ID.']);
+                                echo json_encode(['error' => 'Missing joke id.']);
                                 return;
                             }
 
@@ -155,7 +155,7 @@ class JokeController
                             $jokeId = $_POST['joke_id'] ?? null;
 
                             if (!$jokeId) {
-                                echo json_encode(['error' => 'Missing joke ID.']);
+                                echo json_encode(['error' => 'missing joke ID.']);
                                 return;
                             }
 
@@ -170,7 +170,7 @@ class JokeController
             echo json_encode(['error' => 'unsupported request.']);
         } catch (Exception $e) {
             echo json_encode([
-                'error' => 'Server error occurred please try.',
+                'error' => 'Server error occurred please try later.',
                 'message' => $e->getMessage()
             ]);
         }

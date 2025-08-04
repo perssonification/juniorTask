@@ -330,8 +330,8 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
         });
 
         $('#favTable').on('click', '.favourite-star', function () {
-          const $star = $(this);
-          const jokeId = $star.data('id');
+          let $star = $(this);
+          let jokeId = $star.data('id');
 
           if (!confirm("Remove this joke from favourites?")) return;
 
@@ -420,7 +420,7 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
                   alert('Deleted from saved.');
                   dataTable.ajax.reload();
                 } else {
-                  alert(resp.error || 'Failed to delete.');
+                  alert(resp.error || 'Failed to delete joke.');
                 }
               },
               error: function () {

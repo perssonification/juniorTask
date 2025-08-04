@@ -19,7 +19,6 @@ SELECT j.id,
        j.joke_text,
        c.category AS category,
        j.date_created,
-       CASE WHEN uf.id IS NOT NULL THEN 1 ELSE 0 END AS is_favourite
 FROM jokes j
 LEFT JOIN categories c ON j.category_id = c.id
 LEFT JOIN user_favourites uf ON j.id = uf.joke_id AND uf.user_id = :user_id
@@ -56,9 +55,9 @@ SQL;
         $categoryId = $this->getOrCreateCategoryId($category);
 
         $query = <<<'SQL'
-    INSERT INTO jokes (joke_text, category_id, date_created)
-    VALUES (:joke_text, :category_id, NOW())
-    SQL;
+INSERT INTO jokes (joke_text, category_id, date_created)
+VALUES (:joke_text, :category_id, NOW())
+SQL;
 
         $statment = $db->prepare($query);
         return $statment->execute([
@@ -83,10 +82,10 @@ WHERE uf.user_id = :user_id
 ORDER BY j.id DESC
 SQL;
 
-            $statment = $db->prepare($query);
-            $statment->execute(['user_id' => $userId]);
+            $statement = $db->prepare($query);
+            $statement->execute(['user_id' => $userId]);
 
-            return $statment->fetchAll(PDO::FETCH_ASSOC);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error fetching favourite jokes: " . $e->getMessage());
             return [];
@@ -167,10 +166,10 @@ SQL;
                 $params['exclude_id'] = $excludeId;
             }
 
-            $statment = $db->prepare($query);
-            $statment->execute($params);
+            $statement = $db->prepare($query);
+            $statement->execute($params);
 
-            $result = $statment->fetchColumn();
+            $result = $statement->fetchColumn();
 
             return $result !== false ? (int)$result : null;
         } catch (PDOException $e) {
@@ -195,8 +194,8 @@ INSERT INTO jokes (joke_text, category_id, date_created)
 VALUES (:joke_text, :category_id, NOW())
 SQL;
 
-            $statment = $db->prepare($query);
-            $statment->execute([
+            $statement = $db->prepare($query);
+            $statement->execute([
                 'joke_text'   => $joke,
                 'category_id' => $categoryId,
             ]);
@@ -222,10 +221,10 @@ LEFT JOIN categories c ON j.category_id = c.id
 ORDER BY j.id DESC
 SQL;
 
-            $statment = $db->prepare($query);
-            $statment->execute();
+            $statement = $db->prepare($query);
+            $statement->execute();
 
-            return $statment->fetchAll(PDO::FETCH_ASSOC);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error fetching saved jokes: " . $e->getMessage());
             return [];
@@ -239,10 +238,10 @@ SQL;
 
             $db->prepare('DELETE FROM user_favourites WHERE joke_id = :id')->execute(['id' => $jokeId]);
 
-            $stmt = $db->prepare('DELETE FROM jokes WHERE id = :id');
-            $stmt->execute(['id' => $jokeId]);
+            $statement = $db->prepare('DELETE FROM jokes WHERE id = :id');
+            $statement->execute(['id' => $jokeId]);
 
-            return $stmt->rowCount() > 0;
+            return $statement->rowCount() > 0;
         } catch (PDOException $e) {
             error_log("Error deleting joke: " . $e->getMessage());
             return false;
@@ -253,14 +252,14 @@ SQL;
     {
         $db = (new Database())->getConnection();
 
-        $statment = $db->prepare('SELECT id FROM categories WHERE category = :category');
-        $statment->execute(['category' => $category]);
+        $statement = $db->prepare('SELECT id FROM categories WHERE category = :category');
+        $statement->execute(['category' => $category]);
 
         $categoryId = $statment->fetchColumn();
 
         if (!$categoryId) {
-            $statment = $db->prepare('INSERT INTO categories (category) VALUES (:category)');
-            $statment->execute(['category' => $category]);
+            $statement = $db->prepare('INSERT INTO categories (category) VALUES (:category)');
+            $statement->execute(['category' => $category]);
             $categoryId = (int)$db->lastInsertId();
         }
 
