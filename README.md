@@ -6,25 +6,23 @@ Step bu step installation guide:
 Step 1: Requirements
 please make sure you have the following installed on your local
 docker 
-github deskstop
+github deskstop (optional)
 
 step 2:Clone the Repository
 Open up juniorTask and close repository
-or open in git hub deskstop
+or close in git hub deskstop
 
-open your terminal you  can use git bash or powershell and run the following coomand promt 
-git clone [https://github.com/yourusername/juniorTask.git](https://github.com/perssonification/juniorTask.git)
+(alternative)
+you can use git bash or powershell and run the following coomand promt 
+git clone [(https://github.com/perssonification/juniorTask.git)]
 cd juniorTask
-
-if you using git command line interface 
 
 Step 3: open the repository in your external editor
 eg visual studio code
 
 Step 4: 
 in your terminal run this command prompt 
-docker-compose up -d 
-(This will build and run the containers in detached mode for ease of use or just use 'docker-compose up'.)
+docker-compose up
 
 Step 5: 
 once the docker is up and running you can visit these links for ease of access
