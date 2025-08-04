@@ -5,12 +5,12 @@ Step bu step installation guide:
 
 Step 1: Requirements
 please make sure you have the following installed on your local
-docker 
-github deskstop (optional)
+-docker 
+-github deskstop (optional)
 
 step 2:Clone the Repository
-Open up juniorTask and close repository
-or close in git hub deskstop
+-Open up juniorTask and close repository
+-or close in git hub deskstop
 
 (alternative)
 you can use git bash or powershell and run the following coomand promt 
