@@ -13,8 +13,7 @@ docker-compose up -d
 
 Step 5: 
 links for ease of access
-[the localhost:8082](http://localhost:8082/index.php)
-and phpmyadmin [at locoalhost8081](http://localhost:8081/index.php?route=/database/export&db=chuck_norris)
+phpmyadmin [at locoalhost8081](http://localhost:8081/index.php?route=/database/export&db=chuck_norris)
 
 should you need login in details for phpmyAdmin
 the username and password are set to "root"
