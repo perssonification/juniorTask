@@ -28,13 +28,13 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link tab-link active" href="#" data-tab="home">Home Page</a>
+          <a class="nav-link tab-link active" href="#home" data-tab="home">Home Page</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link tab-link" href="#" data-tab="fav">Favourites</a>
+          <a class="nav-link tab-link" href="#favourites" data-tab="fav">Favourites</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link tab-link" href="#" data-tab="saved">Saved Jokes</a>
+          <a class="nav-link tab-link" href="#saved" data-tab="saved">Saved Jokes</a>
         </li>
       </ul>
     </div>
@@ -240,7 +240,7 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
               alert('Joke saved!');
               dataTable.ajax.reload();
             } else if (response.error === 'Joke already exists.') {
-              alert('This joke already exists in the database.');
+              alert('This joke has already been saved.');
             } 
           },
           error: function () {
@@ -281,12 +281,6 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
         });
       });
 
-      function updateFavButtonState(isFavourited) {
-        let $btn = $('#addFavbtn');
-        $btn.toggleClass('btn-warning', isFavourited);
-        $btn.toggleClass('btn-primary', !isFavourited);
-      }
-
       function addToFavourites(jokeId) {
         $.ajax({
           url: '/Controller/JokeGenerator.php',
@@ -310,6 +304,7 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
           }
         });
       }
+
       let favDataTable = null;
 
       function initFavouritesTable() {
@@ -338,27 +333,29 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
           const $star = $(this);
           const jokeId = $star.data('id');
 
+          if (!confirm("Remove this joke from favourites?")) return;
+
           $.ajax({
             url: '/Controller/JokeGenerator.php',
             type: 'POST',
             data: {
-              action: 'addToFavourites',
-              joke_id: jokeId,
-              status: 0 
+              action: 'removeFromFavourites', 
+              joke_id: jokeId
             },
             dataType: 'json',
             success: function (response) {
               if (response.success) {
+                alert('Removed from favourites!');
                 favDataTable
                   .row($star.closest('tr'))
                   .remove()
                   .draw();
               } else {
-                alert('Failed to remove from favourites.');
+                alert(response.error || 'Failed to remove from favourites.');
               }
             },
             error: function () {
-              alert('Failed to update favourite.');
+              alert('Failed to remove from favourites.');
             }
           });
         });
@@ -390,30 +387,52 @@ $categories = json_decode(file_get_contents("https://api.chucknorris.io/jokes/ca
       $('body').on('click', '.delete-joke', function () {
         let $trash = $(this);
         let jokeId = $trash.data('id');
-        if (!confirm('Are you sure you want to delete this joke?')) return;
 
         $.ajax({
           url: '/Controller/JokeGenerator.php',
           type: 'POST',
           data: {
-            action: 'deleteJoke',
+            action: 'checkFavouriteStatus',
             joke_id: jokeId
           },
           dataType: 'json',
           success: function (response) {
-            if (response.success) {
-              alert('Joke deleted successfully.');
-              dataTable.ajax.reload(); 
+            if (response.isFavourite) {
+              if (!confirm('This joke is also in your favourites. If you delete it, it will be removed from favourites as well. Do you want to proceed?')) {
+                return;
+              }
             } else {
-              alert(response.error || 'Failed to delete the joke.');
+              if (!confirm('Are you sure you want to delete this joke from saved?')) {
+                return;
+              }
             }
+
+            $.ajax({
+              url: '/Controller/JokeGenerator.php',
+              type: 'POST',
+              data: {
+                action: 'deleteJoke',
+                joke_id: jokeId
+              },
+              dataType: 'json',
+              success: function (resp) {
+                if (resp.success) {
+                  alert('Deleted from saved.');
+                  dataTable.ajax.reload();
+                } else {
+                  alert(resp.error || 'Failed to delete.');
+                }
+              },
+              error: function () {
+                alert('AJAX error.');
+              }
+            });
           },
           error: function () {
-            alert('Failed to delete the joke.');
+            alert('Failed to check favourite status.');
           }
         });
-      })
-
+      });
     });
   </script>
 

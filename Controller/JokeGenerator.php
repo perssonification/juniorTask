@@ -108,12 +108,8 @@ class JokeController
                             return;
                         }
 
-                        $result = $this->model->deleteJokeById((int)$jokeId);
-                        echo json_encode(['success' => $result]);
-                        return;
-
-                    default:
-                        echo json_encode(['error' => 'Unsupported action.']);
+                        $deleted = $this->model->deleteJokeById((int)$jokeId);
+                        echo json_encode(['success' => $deleted]);
                         return;
 
                     case 'addJokeAndFavourite':
@@ -142,13 +138,39 @@ class JokeController
                             'already_favourited' => !$added
                         ]);
                         return;
+                        case 'removeFromFavourites':
+                            $jokeId = $_POST['joke_id'] ?? null;
+
+                            if (!$jokeId) {
+                                echo json_encode(['error' => 'Missing joke ID.']);
+                                return;
+                            }
+
+                            $removed = $this->model->removeFromFavourites($userId, (int)$jokeId);
+
+                            echo json_encode(['success' => $removed]);
+                            return;
+
+                        case 'checkFavouriteStatus':
+                            $jokeId = $_POST['joke_id'] ?? null;
+
+                            if (!$jokeId) {
+                                echo json_encode(['error' => 'Missing joke ID.']);
+                                return;
+                            }
+
+                            $isFavourite = $this->model->isJokeInFavourites($userId, (int)$jokeId);
+
+                            echo json_encode(['isFavourite' => $isFavourite]);
+                            return;
+
                 }
             }
 
             echo json_encode(['error' => 'unsupported request.']);
         } catch (Exception $e) {
             echo json_encode([
-                'error' => 'Server error occurred please try again.',
+                'error' => 'Server error occurred please try.',
                 'message' => $e->getMessage()
             ]);
         }
