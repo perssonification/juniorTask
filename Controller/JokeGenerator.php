@@ -142,7 +142,7 @@ class JokeController
                             $jokeId = $_POST['joke_id'] ?? null;
 
                             if (!$jokeId) {
-                                echo json_encode(['error' => 'Missing joke id.']);
+                                echo json_encode(['error' => 'missing joke ID.']);
                                 return;
                             }
 

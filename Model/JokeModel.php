@@ -259,7 +259,7 @@ SQL;
 
         if (!$categoryId) {
             $statement = $db->prepare('INSERT INTO categories (category) VALUES (:category)');
-            $statemstatementent->execute(['category' => $category]);
+            $statement->execute(['category' => $category]);
             $categoryId = (int)$db->lastInsertId();
         }
 
