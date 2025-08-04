@@ -25,10 +25,10 @@ LEFT JOIN user_favourites uf ON j.id = uf.joke_id AND uf.user_id = :user_id
 ORDER BY j.id DESC
 SQL;
 
-            $statment = $db->prepare($query);
-            $statment->execute(['user_id' => $userId]);
+            $statement = $db->prepare($query);
+            $statement->execute(['user_id' => $userId]);
 
-            return $statment->fetchAll(PDO::FETCH_ASSOC);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log("Error fetching jokes: " . $e->getMessage());
             return [];
@@ -59,8 +59,8 @@ INSERT INTO jokes (joke_text, category_id, date_created)
 VALUES (:joke_text, :category_id, NOW())
 SQL;
 
-        $statment = $db->prepare($query);
-        return $statment->execute([
+        $statement = $db->prepare($query);
+        return $statement->execute([
             'joke_text'   => $joke,
             'category_id' => $categoryId,
         ]);
@@ -101,13 +101,13 @@ INSERT IGNORE INTO user_favourites (user_id, joke_id, date_created)
 VALUES (:user_id, :joke_id, NOW())
 SQL;
 
-            $statment = $db->prepare($query);
-            $statment->execute([
+            $statement = $db->prepare($query);
+            $statement->execute([
                 'user_id' => $userId,
                 'joke_id' => $jokeId,
             ]);
 
-            return $statment->rowCount() > 0;
+            return $statement->rowCount() > 0;
         } catch (PDOException $e) {
             error_log("Error adding to favourites: " . $e->getMessage());
             return false;
@@ -255,11 +255,11 @@ SQL;
         $statement = $db->prepare('SELECT id FROM categories WHERE category = :category');
         $statement->execute(['category' => $category]);
 
-        $categoryId = $statment->fetchColumn();
+        $categoryId = $statement->fetchColumn();
 
         if (!$categoryId) {
             $statement = $db->prepare('INSERT INTO categories (category) VALUES (:category)');
-            $statement->execute(['category' => $category]);
+            $statemstatementent->execute(['category' => $category]);
             $categoryId = (int)$db->lastInsertId();
         }
 
