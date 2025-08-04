@@ -1,0 +1,34 @@
+.context {
+  background-color: rgb(37, 37, 37);
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+
+.mainBox {
+  background-color: rgb(68, 68, 68);
+  width: 800px;
+  max-width: 1000px;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+.box button,
+.box .dropdown {
+  flex: 1;
+  min-width: 200px;
+  margin: 5px;
+}
